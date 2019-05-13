@@ -253,7 +253,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-## "Живые" коллекции
+## Живые коллекции
 
 Все методы `"getElementsBy*"` возвращают *живую* коллекцию. Такие коллекции всегда отражают текущее состояние документа и автоматически обновляются при его изменении.
 
@@ -279,9 +279,9 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-Напротив, `querySelectorAll` возвращает *статическую* коллекцию. Это как фиксированный массив элементовIt's like a fixed array of elements.
+Напротив, `querySelectorAll` возвращает *статическую* коллекцию. Это как фиксированный массив элементов.
 
-Если мы будем использовать его в примере вышеIf we use it instead, то оба скрипта вернут длину равную then both scripts output `1`:
+Если мы будем использовать его в примере выше, то оба скрипта вернут длину равную `1`:
 
 
 ```html run
@@ -301,11 +301,11 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-Now we can easily see the difference. The static collection did not increase after the appearance of a new `div` in the document.
+Теперь мы видим разницу. Длина статической коллекции не изменилась после после появления нового `div` в документе.The static collection did not increase after the appearance of a new `div` in the document.
 
-Here we used separate scripts to illustrate how the element addition affects the collection, but any DOM manipulations affect them. Soon we'll see more of them.
+Мы использовали разные скрипты, чтобы увидеть как добавление элемента влияет на коллекцию, но любые манипуляции с DOM влияют на них. Here we used separate scripts to illustrate how the element addition affects the collection, but any DOM manipulations affect them. Soon we'll see more of them.
 
-## Summary
+## Итого
 
 Есть 6 основных методов поиска элементов в DOM:
 
@@ -315,7 +315,7 @@ Here we used separate scripts to illustrate how the element addition affects the
 <td>Метод</td>
 <td>Ищет по...</td>
 <td>Ищет внутри элемента?</td>
-<td>Возвращает "живую" коллекцию?</td>
+<td>Возвращает живую коллекцию?</td>
 </tr>
 </thead>
 <tbody>
