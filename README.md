@@ -307,15 +307,15 @@ Here we used separate scripts to illustrate how the element addition affects the
 
 ## Summary
 
-There are 6 main methods to search for nodes in DOM:
+Есть 6 основных методов поиска узлов в DOM:
 
 <table>
 <thead>
 <tr>
-<td>Method</td>
-<td>Searches by...</td>
-<td>Can call on an element?</td>
-<td>Live?</td>
+<td>Метод</td>
+<td>Ищет по...</td>
+<td>Ищет внутри элемента?</td>
+<td>Возвращает "живую" коллекцию?</td>
 </tr>
 </thead>
 <tbody>
@@ -357,13 +357,12 @@ There are 6 main methods to search for nodes in DOM:
 </tr>
 </tbody>
 </table>
+Безусловно, наиболее часто используемыми в настоящее время являются методы `querySelector` and `querySelectorAll`, но и методы  `getElementBy*` могут быть полезны в отдельных случаях, а также встречаются в ранних скриптах.
 
-By far the most used are `querySelector` and `querySelectorAll`, but `getElementBy*` can be sporadically helpful or found in the old scripts.
+Кроме того:
 
-Besides that:
-
-- There is `elem.matches(css)` to check if `elem` matches the given CSS selector.
-- There is `elem.closest(css)` to look for the nearest ancestor that matches the given CSS-selector. The `elem` itself is also checked.
+- Есть метод `elem.matches(css)`, который проверяет, удовлетворяет ли элемент CSS-селектору.
+- Метод `elem.closest(css)` ищет ближайшего по иерархии предка, соответствующему данному CSS-селектору. Сам элемент также включён в поиск.
 
 And let's mention one more method here to check for the child-parent relationship:
 -  `elemA.contains(elemB)` returns true if `elemB` is inside `elemA` (a descendant of `elemA`) or when `elemA==elemB`.
