@@ -25,7 +25,7 @@
 </script>
 ```
 
-Это поведение соответствует [стандарту](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), но поддерживается в основном для совместимости, как осколок далёкого прошлого.Браузер пытается помочь нам, смешивая пространства имён JS и DOM, но при этом возможны конфликты, неочевидно откуда возьмется переменная. Also, when we look in JS and don't have HTML in view, it's not obvious where the variable comes from.
+Это поведение соответствует [стандарту](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), но поддерживается в основном для совместимости, как осколок далёкого прошлого. Браузер пытается помочь нам, смешивая пространства имён JS и DOM, но при этом возможны конфликты, неочевидно откуда возьмется переменная. Also, when we look in JS and don't have HTML in view, it's not obvious where the variable comes from.
 
 Если мы объявляем переменную с тем же именем, то она будет иметь приоритет:
 
@@ -244,23 +244,23 @@ document.getElementsByTagName('input')[0].value = 5;
 </form>
 
 <script>
-  // find by name attribute
+  // ищем по имени атрибута
   let form = document.getElementsByName('my-form')[0];
 
-  // find by class inside the form
+  // ищем по классу внутри `form`
   let articles = form.getElementsByClassName('article');
-  alert(articles.length); // 2, found two elements with class "article"
+  alert(articles.length); // 2, находим два элемента с классом "article"
 </script>
 ```
 
-## Live collections
+## "Живые" коллекции
 
-All methods `"getElementsBy*"` return a *live* collection. Such collections always reflect the current state of the document and "auto-update" when it changes.
+Все методы `"getElementsBy*"` возвращают *живую* коллекцию. Такие коллекции всегда отражают текущее состояние документа и автоматически обновляются при его изменении.
 
-In the example below, there are two scripts.
+В приведенном ниже примере есть два скрипта.
 
-1. The first one creates a reference to the collection of `<div>`. As of now, its length is `1`.
-2. The second scripts runs after the browser meets one more `<div>`, so its length is `2`.
+1. Первый создает ссылку на коллекцию `<div>`. На этот момент ее длина равна `1`.
+2. Второй скрипт запускается после того, как браузер встречает еще один `<div>`, теперь ее длина `2`.
 
 ```html run
 <div>First div</div>
@@ -279,9 +279,9 @@ In the example below, there are two scripts.
 </script>
 ```
 
-In contrast, `querySelectorAll` returns a *static* collection. It's like a fixed array of elements.
+Напротив, `querySelectorAll` возвращает *статическую* коллекцию. Это как фиксированный массив элементовIt's like a fixed array of elements.
 
-If we use it instead, then both scripts output `1`:
+Если мы будем использовать его в примере вышеIf we use it instead, то оба скрипта вернут длину равную then both scripts output `1`:
 
 
 ```html run
@@ -307,7 +307,7 @@ Here we used separate scripts to illustrate how the element addition affects the
 
 ## Summary
 
-Есть 6 основных методов поиска узлов в DOM:
+Есть 6 основных методов поиска элементов в DOM:
 
 <table>
 <thead>
