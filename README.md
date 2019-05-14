@@ -8,7 +8,7 @@
 
 Если элементу назначен специальный атрибут `id`, то можно получить его по переменной с искомым значением `id`.
 
-Мы можем использовать его для немедленного доступа к элементу, где бы он не находился:
+Мы можем использовать его для немедленного доступа к элементу:
 
 ```html run
 <div id="*!*elem*/!*">
@@ -17,15 +17,15 @@
 
 <script>
   alert(elem); // DOM-элемент с id="elem"
-  alert(window.elem); // accessing global variable like this also works
+  alert(window.elem); // как работает доступ к глобальной переменной
 
-  // for elem-content things are a bit more complex
-  // that has a dash inside, so it can't be a variable name
-  alert(window['elem-content']); // ...в имени дефис, поэтому через [...]
+  // для `elem-content` сложнее так как в имени переменной `-`
+  
+  alert(window['elem-content']); // ... поэтому через [...]
 </script>
 ```
 
-Это поведение соответствует [стандарту](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), но поддерживается в основном для совместимости, как осколок далёкого прошлого. Браузер пытается помочь нам, смешивая пространства имён JS и DOM, но при этом возможны конфликты, неочевидно откуда возьмется переменная. Also, when we look in JS and don't have HTML in view, it's not obvious where the variable comes from.
+Это поведение соответствует [стандарту](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), но поддерживается в основном для совместимости, как осколок далёкого прошлого. Браузер пытается помочь нам, смешивая пространства имён JS и DOM, но при этом возможны конфликты, неочевидно откуда возьмётся переменная.
 
 Если мы объявляем переменную с тем же именем, то она будет иметь приоритет:
 
@@ -45,7 +45,7 @@
 
 ```html run
 <div id="elem">
-  <div id="elem-content">Element</div>
+  <div id="elem-content">Элемент</div>
 </div>
 
 <script>
@@ -64,8 +64,8 @@
 Если в документе есть несколько элементов с одинаковым значением `id`, то поведение методов поиска непредсказуемо. Браузер может вернуть любой из них случайным образом. Поэтому, пожалуйста, придерживайтесь правила сохранения уникальности `id`.
 ```
 
-```warn header="Only `document.getElementById`, not `anyNode.getElementById`"
-The method `getElementById` that can be called only on `document` object. It looks for the given `id` in the whole document.
+```warn header="Только `document.getElementById` не `anyNode.getElementById`"
+Метод `getElementById` можно вызвать только для объекта `document`. Он осуществляет поиск по `id` по всему `document`.
 ```
 
 ## querySelectorAll [#querySelectorAll]
@@ -94,7 +94,7 @@ The method `getElementById` that can be called only on `document` object. It loo
 </script>
 ```
 
-This method is indeed powerful, because any CSS selector can be used.
+Этот метод действительно мощный, поэтому можно использовать любой CSS-селектор.
 
 ```smart header="Псевдо-классы тоже работают"
 Псевдо-классы в CSS-селекторе, в частности `:hover` и `:active`, также поддерживаются. Например, `document.querySelectorAll(':hover')` вернёт коллекцию(в порядке вложенности) из текущих элементов под курсором мыши.
@@ -102,7 +102,7 @@ This method is indeed powerful, because any CSS selector can be used.
 
 ## querySelector [#querySelector]
 
-Метод `elem.querySelector(css)` возвращает первый элемент,соответствующий данному CSS-селектору.
+Метод `elem.querySelector(css)` возвращает первый элемент, соответствующий данному CSS-селектору.
 
 Иначе говоря, результат такой же, как при `elem.querySelectorAll(css)[0]`, но в последнем вызове сначала ищутся *все* элементы, а потом берётся первый, а `elem.querySelector` ищется только первый, то есть он эффективнее.
 
@@ -111,7 +111,7 @@ This method is indeed powerful, because any CSS selector can be used.
 
 Метод [elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) ничего не ищет, а проверяет, удовлетворяет ли `elem` CSS-селектору, и возвращает `true` или `false`.
 
-Этот метод удобен, когда мы перебираем элементы(например в массиве) и пытаемся отфильтровать те из них, которые нас интересуют.
+Этот метод удобен, когда мы перебираем элементы(например в массиве) и пытаемся выбрать те из них, которые нас интересуют.
 
 Например:
 
@@ -120,12 +120,12 @@ This method is indeed powerful, because any CSS selector can be used.
 <a href="http://ya.ru">...</a>
 
 <script>
-  // can be any collection instead of document.body.children
+  // может быть любая коллекция вместо document.body.children
   for (let elem of document.body.children) {
 *!*
     if (elem.matches('a[href$="zip"]')) {
 */!*
-      alert("The archive reference: " + elem.href );
+      alert("Ссылка на архив: " + elem.href );
     }
   }
 </script>
@@ -135,19 +135,19 @@ This method is indeed powerful, because any CSS selector can be used.
 
 *Предками* элемента являются: родитель, родитель родителя, его родитель и так далее. Вместе предки образуют цепочку иерархии.
 
-Метод `elem.closest(css)` ищет ближайший элемент по иерархии DOM, который соответствует CSS-селектору. Сам элемент тоже включается в поиск.
+Метод `elem.closest(css)` ищет ближайший элемент по иерархии DOM, который соответствует CSS-селектору. Сам элемент также включается в поиск.
 
-Другими словами, метод `closest`поднимается вверх от элемента и проверяет каждого из родителей. Если он соответствует селектору, поиск прекращается и предок возвращается.
+Другими словами, метод `closest` поднимается вверх от элемента и проверяет каждого из родителей. Если он соответствует селектору, поиск прекращается и предок возвращается.
 
 Например:
 
 ```html run
-<h1>Contents</h1>
+<h1>Содержание</h1>
 
 <div class="contents">
   <ul class="book">
-    <li class="chapter">Chapter 1</li>
-    <li class="chapter">Chapter 1</li>
+    <li class="chapter">Глава 1</li>
+    <li class="chapter">Глава 2</li>
   </ul>
 </div>
 
@@ -157,21 +157,21 @@ This method is indeed powerful, because any CSS selector can be used.
   alert(chapter.closest('.book')); // UL
   alert(chapter.closest('.contents')); // DIV
 
-  alert(chapter.closest('h1')); // null (because h1 is not an ancestor)
+  alert(chapter.closest('h1')); // null (потому что h1 не предок)
 </script>
 ```
 
 ## getElementsBy*
 
-Существуют также другие методы поиска узлов по тегу, классу, и так далее.
+Существуют также другие методы поиска элементов по тегу, классу, и так далее.
 
-На данный момент, они скорее историческиthey are mostly history, так как `querySelector` более чем эффективен.
+На данный момент, они скорее исторические, так как `querySelector` более чем эффективен.
 
-Здесь мы рассмотрим их для полноты картины, так же вы можете встретить их в ранних скриптах.
+Здесь мы рассмотрим их для полноты картины, так же вы можете встретить их в старом коде.
 
 - `elem.getElementsByTagName(tag)` ищет элементы с данным тегом и возращает их коллекцию. Передав `"*"` вместо тега можно получить всех потомков.
 - `elem.getElementsByClassName(className)` возвращает элементы, которые имеют данный CSS-класс. Элементы могут иметь и другие классы.
-- `document.getElementsByName(name)` возвращает элементы с заданным `name` атрибута, для всего документа. Очень редко используется.
+- `document.getElementsByName(name)` возвращает элементы с заданным `name` атрибута для всего документа. Очень редко используется.
 
 Например:
 ```js
@@ -214,11 +214,11 @@ let divs = document.getElementsByTagName('div');
 ```warn header="Не забываем про букву `\"s\"`!"
 Одна из самых частых ошибок начинающих разработчиков(впрочем, иногда и не только)  - это забыть букву `"s"`. То есть пробовать вызывать метод `getElementByTagName` вместо <code>getElement<b>s</b>ByTagName</code>.
 
-Буква `"s"` отсутствует в названии метода `getElementById`, так как в данном случае вызывает один элемент. Но `getElementsByTagName` вернет список элементов, поэтому `"s"` обязательна.
+Буква `"s"` отсутствует в названии метода `getElementById`, так как в данном случае вызывает один элемент. Но `getElementsByTagName` вернёт список элементов, поэтому `"s"` обязательна.
 ```
 
 ````warn header="Возвращает коллекцию, а не элемент!"
-Другая распространенная ошибка - написать:
+Другая распространённая ошибка - написать:
 
 ```js
 // не работает
@@ -230,7 +230,7 @@ document.getElementsByTagName('input').value = 5;
 Нужно перебрать коллекцию в цикле или получить элемент по номеру и уже ему присваивать значение, например так:
 
 ```js
-// работает (if there's an input)
+// работает (если есть input)
 document.getElementsByTagName('input')[0].value = 5;
 ```
 ````
@@ -249,7 +249,7 @@ document.getElementsByTagName('input')[0].value = 5;
 
   // ищем по классу внутри `form`
   let articles = form.getElementsByClassName('article');
-  alert(articles.length); // 2, находим два элемента с классом "article"
+  alert(articles.length); // 2, находим два элемента с классом `article`
 </script>
 ```
 
@@ -257,10 +257,10 @@ document.getElementsByTagName('input')[0].value = 5;
 
 Все методы `"getElementsBy*"` возвращают *живую* коллекцию. Такие коллекции всегда отражают текущее состояние документа и автоматически обновляются при его изменении.
 
-В приведенном ниже примере есть два скрипта.
+В приведённом ниже примере есть два скрипта.
 
-1. Первый создает ссылку на коллекцию `<div>`. На этот момент ее длина равна `1`.
-2. Второй скрипт запускается после того, как браузер встречает еще один `<div>`, теперь ее длина `2`.
+1. Первый создает ссылку на коллекцию `<div>`. На этот момент её длина равна `1`.
+2. Второй скрипт запускается после того, как браузер встречает ещё один `<div>`, теперь её длина `2`.
 
 ```html run
 <div>First div</div>
@@ -301,9 +301,9 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-Теперь мы видим разницу. Длина статической коллекции не изменилась после после появления нового `div` в документе.The static collection did not increase after the appearance of a new `div` in the document.
+Теперь мы видим разницу. Длина статической коллекции не изменилась после появления нового `div` в документе.
 
-Мы использовали разные скрипты, чтобы увидеть как добавление элемента влияет на коллекцию, но любые манипуляции с DOM влияют на них. Here we used separate scripts to illustrate how the element addition affects the collection, but any DOM manipulations affect them. Soon we'll see more of them.
+Мы использовали отдельные скрипты, чтобы увидеть как добавление элемента влияет на коллекцию, но любые манипуляции с DOM влияют на них.
 
 ## Итого
 
@@ -357,12 +357,12 @@ document.getElementsByTagName('input')[0].value = 5;
 </tr>
 </tbody>
 </table>
-Безусловно, наиболее часто используемыми в настоящее время являются методы `querySelector` and `querySelectorAll`, но и методы  `getElementBy*` могут быть полезны в отдельных случаях, а также встречаются в ранних скриптах.
+Безусловно, наиболее часто используемыми в настоящее время являются методы `querySelector` и `querySelectorAll`, но и методы  `getElementBy*` могут быть полезны в отдельных случаях, а также встречаются в старом коде.
 
 Кроме того:
 
 - Есть метод `elem.matches(css)`, который проверяет, удовлетворяет ли элемент CSS-селектору.
 - Метод `elem.closest(css)` ищет ближайшего по иерархии предка, соответствующему данному CSS-селектору. Сам элемент также включён в поиск.
 
-And let's mention one more method here to check for the child-parent relationship:
--  `elemA.contains(elemB)` returns true if `elemB` is inside `elemA` (a descendant of `elemA`) or when `elemA==elemB`.
+И давайте упомянем ещё один метод, который проверяет наличие отношений "потомок-предок":
+-  `elemA.contains(elemB)` вернёт `true` если `elemB` находится внутри `elemA` (`elemA` яляется предком `elemB`) или `elemA==elemB`.
